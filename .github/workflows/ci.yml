@@ -10,7 +10,7 @@ jobs:
       SFRAG_ENV: test
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.3.3  # setup-uv publishes exact tags only (no floating major)
       - run: uv sync --python 3.12
       - run: uv run ruff check src tests
       - run: uv run ruff format --check src tests
