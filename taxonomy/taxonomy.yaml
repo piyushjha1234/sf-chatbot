@@ -1,0 +1,97 @@
+# Controlled vocabularies + alias normalisation. Classification aid only — never a crawl filter.
+# Bump `version` whenever this file changes (it is part of the classification cache key).
+version: 1
+
+products:
+  data360:
+    label: Data 360
+    aliases: ["Data 360", "Data Cloud", "Salesforce Data Cloud", "Customer Data Platform", "Salesforce CDP",
+              "Genie", "Data Model Object", "DMO", "Data Lake Object", "DLO", "Calculated Insight",
+              "Identity Resolution", "Data Stream", "Data Graph", "Data Space", "Activation Target",
+              "Segmentation", "Zero Copy", "Data Cloud Query API"]
+    identifier_patterns: ["__dlm\\b", "__dll\\b", "__cio\\b", "\\bssot__"]
+    url_patterns: ["data-cloud", "datacloud", "data360", "c360", "/cdp", "customer-data-platform"]
+  mce:
+    label: Marketing Cloud Engagement
+    aliases: ["Marketing Cloud Engagement", "Marketing Cloud", "Email Studio", "Journey Builder",
+              "Automation Studio", "Contact Builder", "Mobile Studio", "MobileConnect", "MobilePush",
+              "Content Builder", "AMPscript", "Server-Side JavaScript", "SSJS", "Data Extension",
+              "Marketing Cloud API", "Einstein Engagement Scoring", "Distributed Marketing",
+              "Marketing Cloud Connect", "Business Unit"]
+    identifier_patterns: ["\\bAMPscript\\b", "%%\\[", "\\bPlatform\\.Load\\b"]
+    url_patterns: ["marketing-cloud/", "mc-", "marketingcloud", "mc_overview", "mc_jb_", "mc_es_", "mc_as_"]
+  mcp:
+    label: Marketing Cloud Personalization
+    aliases: ["Marketing Cloud Personalization", "Interaction Studio", "Evergage", "Sitemap", "Campaign Template",
+              "Recipes", "Einstein Recipes", "Web SDK", "Personalization Gears"]
+    identifier_patterns: ["\\bEvergage\\.", "\\bSalesforceInteractions\\."]
+    url_patterns: ["marketing-cloud-personalization", "personalization/mcp", "interaction-studio", "evergage", "mc-personalization"]
+  sf_personalization:
+    label: Salesforce Personalization
+    aliases: ["Salesforce Personalization", "Personalization Decision", "Personalization Point",
+              "Personalization Schema", "Decision Element", "Experience Builder Personalization"]
+    identifier_patterns: []
+    url_patterns: ["/personalization/", "salesforce-personalization", "sf-personalization"]
+  mc_next:
+    label: Marketing Cloud Next
+    aliases: ["Marketing Cloud Next", "Marketing Cloud Growth", "Marketing Cloud Advanced",
+              "Marketing on Core", "Agentforce Marketing", "Flow-based campaigns"]
+    identifier_patterns: []
+    url_patterns: ["marketing-cloud-next", "mc-next", "marketing-cloud-growth", "marketing-cloud-advanced", "mkt_growth"]
+  mci:
+    label: Marketing Cloud Intelligence
+    aliases: ["Marketing Cloud Intelligence", "Datorama", "Harmonization Center", "Data Stream Types",
+              "Total Connect", "Marketing Cloud Intelligence API"]
+    identifier_patterns: ["\\bDatorama\\b"]
+    url_patterns: ["marketing-cloud-intelligence", "datorama", "mc-intelligence"]
+  sf_architecture:
+    label: Salesforce APIs and Architecture
+    aliases: ["REST API", "SOAP API", "Bulk API", "Bulk API 2.0", "Metadata API", "Tooling API", "Pub/Sub API",
+              "Platform Events", "Change Data Capture", "Streaming API", "Connected App", "External Client App",
+              "OAuth", "Named Credential", "Apex", "Lightning Web Components", "Well-Architected",
+              "Integration Patterns", "Governor Limits", "MuleSoft"]
+    identifier_patterns: ["/services/data/v\\d+\\.\\d", "/services/oauth2/", "\\b\\w+__c\\b", "\\b\\w+__e\\b"]
+    url_patterns: ["architect.salesforce.com", "/docs/platform/", "/docs/atlas.en-us.api", "api_rest", "api_asynch",
+                   "api_meta", "apexcode", "lwc", "integration-patterns", "well-architected"]
+
+# Keyword cues per knowledge category (lowercase substring match on headings > title > body).
+categories:
+  concept: ["overview", "what is", "introduction", "about ", "concepts", "understand", "how it works"]
+  configuration: ["set up", "setup", "configure", "enable", "settings", "permission set", "assign", "turn on"]
+  implementation: ["implement", "deploy", "rollout", "best practice", "considerations", "planning"]
+  api: ["endpoint", "request body", "response body", "http method", "api reference", "parameters", "curl ", "/services/", "sdk"]
+  architecture: ["architecture", "data model", "integration pattern", "design", "topology", "reference architecture"]
+  security: ["security", "encryption", "authentication", "oauth", "access control", "sharing", "consent", "gdpr"]
+  governance: ["governance", "data retention", "compliance", "audit", "policy", "lineage"]
+  limits: ["limit", "limits", "allocation", "quota", "maximum", "throttl", "governor"]
+  troubleshooting: ["troubleshoot", "error", "fails", "failure", "not working", "resolve", "issue", "known issue", "workaround"]
+  migration: ["migrat", "upgrade", "transition", "move from", "retire", "replace"]
+  release_change: ["release notes", "what's new", "new features", "changed", "spring '", "summer '", "winter '"]
+
+# Category -> personas it typically serves (ranking signal only, never a permission boundary).
+category_personas:
+  concept: [business_marketer, functional_consultant]
+  configuration: [administrator, functional_consultant]
+  implementation: [functional_consultant, developer, solution_architect]
+  api: [developer, data_engineer]
+  architecture: [solution_architect, developer]
+  security: [administrator, solution_architect]
+  governance: [administrator, solution_architect, data_engineer]
+  limits: [solution_architect, developer, administrator]
+  troubleshooting: [support, administrator, developer]
+  migration: [solution_architect, functional_consultant]
+  release_change: [administrator, functional_consultant, business_marketer]
+
+# Category -> intents a chunk of that category supports.
+category_intents:
+  concept: [explain, compare, evaluate]
+  configuration: [configure, administer]
+  implementation: [implement, design]
+  api: [develop, implement]
+  architecture: [design, evaluate, compare]
+  security: [configure, audit, administer]
+  governance: [audit, administer]
+  limits: [evaluate, optimize, design]
+  troubleshooting: [troubleshoot]
+  migration: [migrate]
+  release_change: [explain, evaluate]

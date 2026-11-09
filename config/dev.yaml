@@ -1,0 +1,4 @@
+# Local development on the target machine (real models; embedded Qdrant).
+log_level: INFO
+fetch:
+  requests_per_second_per_host: 1.0

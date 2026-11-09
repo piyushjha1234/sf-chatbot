@@ -1,0 +1,9 @@
+# Production-style local stack: Qdrant server so the API and ingestion workers can run as separate processes.
+# Usage:  docker compose up -d qdrant   then   SFRAG_ENV=prod uv run sfrag init
+# Pin the image to the server release matching the installed qdrant-client minor version (`uv pip show qdrant-client`).
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports: ["6333:6333", "6334:6334"]
+    volumes: ["./data/qdrant-server:/qdrant/storage"]
+    restart: unless-stopped

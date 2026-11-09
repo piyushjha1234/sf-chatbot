@@ -1,0 +1,61 @@
+# Source registry (Phase 0). Feature lists never filter crawling — scope is URL rules + permissions.
+#
+# Before enabling a host in production, complete the per-host ToS/robots review and record it in
+# `review`. Seed URLs below are starting points; verify them on the target machine (`sfrag discover`
+# reports what each one yields in the reconciliation report).
+#
+# Fields:
+#   kind: web | file           authority_tier: 1 official docs, 2 official supplementary, 3 community/user
+#   permitted: false blocks all fetching       retain_raw: keep raw bytes after processing
+#   start_urls / sitemaps      use_robots_sitemaps: read `Sitemap:` lines from robots.txt
+#   include / exclude: regexes on the normalised URL     locales: allowed document locales
+#   reference_domains: out-of-scope links on these domains go to the external-review queue
+
+defaults: &web
+  kind: web
+  authority_tier: 1
+  permitted: true
+  retain_raw: true
+  use_robots_sitemaps: false
+  follow_links: true
+  max_link_depth: 3
+  locales: ["en-US", "en"]
+  reference_domains: ["salesforce.com", "force.com", "trailhead.salesforce.com", "github.com"]
+  exclude:
+    - "/(ja|de|fr|es|it|ko|zh|pt|nl|sv|fi|da|no|th|ru)(-[a-z]{2})?/"
+    - "language=(?!en_US)"
+    - "/(login|signup|search)(\\b|/)"
+
+sources:
+  sf_dev_data360:
+    <<: *web
+    name: Salesforce Developers — Data 360 (Data Cloud) docs
+    review: {tos_checked: false, robots_checked: false, notes: "verify before production crawl"}
+    start_urls:
+      - https://developer.salesforce.com/docs/data/data-cloud-dev/guide
+      - https://developer.salesforce.com/docs/data/data-cloud-ref/guide
+      - https://developer.salesforce.com/docs/data/data-cloud-query-guide/guide
+    include:
+      - "^https://developer\\.salesforce\\.com/docs/data/data-cloud"
+
+  sf_help_data360:
+    <<: *web
+    name: Salesforce Help — Data 360 (Data Cloud)
+    review: {tos_checked: false, robots_checked: false,
+             notes: "help.salesforce.com renders client-side; pages are expected to land in needs_render until the Playwright fetcher (M2) is enabled"}
+    start_urls:
+      - https://help.salesforce.com/s/articleView?id=sf.c360_a_data_cloud.htm&type=5
+    include:
+      - "^https://help\\.salesforce\\.com/s/articleView\\?.*id=sf\\.c360_"
+    follow_links: true
+
+  sf_architect:
+    <<: *web
+    authority_tier: 2
+    name: Salesforce Architects
+    review: {tos_checked: false, robots_checked: false, notes: ""}
+    start_urls:
+      - https://architect.salesforce.com/
+    include:
+      - "^https://architect\\.salesforce\\.com/"
+    permitted: false   # enable in M2 (breadth) after review

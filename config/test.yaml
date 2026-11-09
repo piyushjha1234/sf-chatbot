@@ -1,0 +1,16 @@
+# Hermetic tests: no model downloads, no network, no LLM.
+log_level: WARNING
+embedding:
+  backend: hashing
+  dense_dim: 256
+reranker:
+  backend: lexical
+tokenizer:
+  backend: simple
+llm:
+  enabled: false
+fetch:
+  requests_per_second_per_host: 0
+  respect_robots: false
+queue:
+  poll_interval_seconds: 0.05

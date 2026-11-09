@@ -1,0 +1,41 @@
+# Shared defaults. Environment files (dev.yaml / prod.yaml / test.yaml) override; SFRAG_* env vars win.
+pipeline_version: p1
+current_release: "Winter '27"
+
+chunking:
+  child_target_tokens: 600
+  child_max_tokens: 800
+  parent_target_tokens: 1600
+  parent_max_tokens: 2200
+  overlap_tokens: 60
+  min_child_tokens: 150
+
+embedding:
+  backend: bge-m3
+  model_name: BAAI/bge-m3
+  dense_dim: 1024
+  batch_size: 16
+
+reranker:
+  backend: bge-reranker
+  model_name: BAAI/bge-reranker-v2-m3
+
+tokenizer:
+  backend: hf
+  name: BAAI/bge-m3
+
+llm:
+  answer_model: claude-sonnet-5-5
+  fast_model: claude-haiku-5-5
+  judge_model: claude-sonnet-5-5
+  answer_effort: medium
+  fast_effort: low
+  server_side_fallback: true
+
+retrieval:
+  dense_k: 50
+  sparse_k: 50
+  fused_k: 50
+  rerank_k: 40
+  final_k: 12
+  context_token_budget: 12000

@@ -1,0 +1,20 @@
+name: ci
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      SFRAG_ENV: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --python 3.12
+      - run: uv run ruff check src tests
+      - run: uv run ruff format --check src tests
+      - run: uv run mypy src
+      - run: uv run pytest
+  # Smoke eval against a real index runs on the target environment (needs models + Claude API key):
+  #   uv run sfrag eval eval/datasets/seed.jsonl --split smoke --mode answer --baseline data/reports/baseline-smoke.json

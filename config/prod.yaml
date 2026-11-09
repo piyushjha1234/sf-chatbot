@@ -1,0 +1,8 @@
+# Production: Qdrant server (worker and API as separate processes), auth on.
+log_level: INFO
+index:
+  qdrant_url: http://localhost:6333
+  quantization: true
+api:
+  # api_keys: {"<key>": "user:alice"}   # provide via SFRAG_API__API_KEYS (JSON) or a secrets manager
+  rate_limit_per_minute: 30
